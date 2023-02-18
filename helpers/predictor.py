@@ -4,23 +4,22 @@ import joblib
 import json
 import os
 
-from helpers.utils import get_model_attributes
+from ml_model_consume.helpers.utils import get_model_attributes
 
 
 _LATEST_MODEL_VERSION = os.environ.get("LATEST_MODEL_VERSION")
 
-MODEL_V1_PATH = "models/96_90_random_forest_nor_10k.sav"
-MODEL_V2_PATH = "models/96_90_random_forest_nor_10k.sav"
-# MODEL_V2_PATH = "models/99_random_forest_nor_10k.sav"
-# MODEL_V2_PATH = "models/xgboost.model"
+MODEL_V1_PATH = "ml_model_consume/models/96_90_random_forest_nor_10k.sav"
 
 
 # load the model and get the model running for prediction
 MODEL_V1 = joblib.load(MODEL_V1_PATH)
-MODEL_V2 = joblib.load(MODEL_V2_PATH)
+
 
 # label reference
 CLASSIFIER_CLASSES_MAPPING_DICT = {0: "safe to consume", 1: "unsafe to consume"}
+
+logger = logging.getLogger()
 
 
 class Predictor:
@@ -46,7 +45,7 @@ class Predictor:
 
         self.predict_df = None
 
-        self.model = MODEL_V1 if self.model_version == "v1" else MODEL_V2
+        self.model = MODEL_V1
 
     def preprocess_feature_list(self):
         for key, value in self.features_dict.items():
@@ -103,7 +102,7 @@ class Predictor:
         """
 
         try:
-            logging.info("Attempting to make prediction..")
+            logger.info("Attempting to make prediction..")
 
             predict_output = ""
 
@@ -113,12 +112,12 @@ class Predictor:
 
             predicted_class = predict_output.tolist()[0]
 
-            logging.info(f"class - {predicted_class}")
+            logger.info(f"class - {predicted_class}")
 
-            logging.info("Prediction made successfully!!!")
+            logger.info("Prediction made successfully!!!")
 
         except Exception as e:
-            logging.exception(f"An error occurred while prediction: {e}")
+            logger.exception(f"An error occurred while prediction: {e}")
             raise
 
         return self.construct_final_output(predicted_class)
