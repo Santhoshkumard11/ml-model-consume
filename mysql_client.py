@@ -41,7 +41,7 @@ class MySQLClient:
 
         self.get_column_values()
 
-        self.column_values = str(self.column_values)[1:-1].replace(
+        final_column_values = str(self.column_values)[1:-1].replace(
             "'default'", "default"
         )
 
@@ -49,7 +49,7 @@ class MySQLClient:
             database_name=database_name,
             table_name=table_name,
             column_names=column_names,
-            column_values=self.column_values,
+            column_values=final_column_values,
         )
 
         logging.info(f"query - {self.final_query_to_execute}")

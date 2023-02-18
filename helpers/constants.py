@@ -68,6 +68,7 @@ _ML_LOG_QUERY_ARGS_MAPPING = {
     "get_feature_importance": ["req_body", "get_feature_importance"],
     "get_model_features": ["req_body", "get_model_features"],
     "status_code": ["response", "status_code"],
+    "log_source": ["response", "log_source"],
 }
 
 _MISCLASSIFIED_QUERY_ARGS_MAPPING = {
@@ -82,7 +83,7 @@ _MISCLASSIFIED_QUERY_ARGS_MAPPING = {
 }
 
 _QUERY_CONSTRUCT_HELPER = {
-    "ml_model_logs": {"table_name": "fresh_water_classifier", "database_name": "ml_model_logs", "column_names": "model_version,features_dict,predicted_class,response_time,_mode,get_probability,get_feature_importance,get_model_features,status_code"},
+    "ml_model_logs": {"table_name": "fresh_water_classifier", "database_name": "ml_model_logs", "column_names": "model_version,features_dict,predicted_class,response_time,_mode,get_probability,get_feature_importance,get_model_features,status_code,log_source"},
     "misclassified": {"table_name": "misclassified", "database_name": "retrain_model", "column_names": "original_class,predicted_class,features_dict,model_version,response_time"},
 }
 

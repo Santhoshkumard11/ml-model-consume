@@ -12,15 +12,33 @@ from ml_model_consume.helpers.constants import (
 
 logger = logging.getLogger()
 
-logger(f'host - {os.environ.get("MYSQL_HOST")}')
+host, user, password = "", "", ""
+
+if os.path.isfile("/etc/config.json"):
+    with open("/etc/config.json") as config_file:
+        config = json.load(config_file)
+        logger.info("Production Deployment!!")
+        for key, value in config.items():
+            config[key] = config.get(key)
+            os.environ.update({key: value})
+        host = config.get("MYSQL_HOST")
+        user = config.get("MYSQL_USERNAME")
+        password = config.get("MYSQL_PASSWORD")
+else:
+    host = os.environ.get("MYSQL_HOST")
+    user = os.environ.get("MYSQL_USERNAME")
+    password = os.environ.get("MYSQL_PASSWORD")
+
+
+logger.info(f'host - {os.environ.get("MYSQL_HOST")}')
 
 MYSQL_CONN = mysql.connector.connect(
-    host=os.environ.get("MYSQL_HOST"),
-    user=os.environ.get("MYSQL_USERNAME"),
-    password=os.environ.get("MYSQL_PASSWORD"),
+    host=host,
+    user=user,
+    password=password,
     port=3306,
     database="ml_model_logs",
-    autocommit=True
+    autocommit=True,
 )
 
 
@@ -60,10 +78,11 @@ class MySQLClient:
         try:
             with MYSQL_CONN.cursor() as cur:
                 cur.execute(self.final_query_to_execute)
-                logger(f"{self.query_type} - executed query!")
+                logger.info(f"{self.query_type} - executed query!")
 
         except Exception as e:
             logger.error(f"Error in execute_query - {e}")
+            logger.info(f"query - {self.final_query_to_execute}")
             raise
 
     def get_column_values(self):
