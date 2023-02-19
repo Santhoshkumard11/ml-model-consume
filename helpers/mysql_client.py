@@ -4,10 +4,10 @@ from io import StringIO
 import logging
 import json
 from ml_model_consume.helpers.constants import (
-    _ML_LOG_QUERY_ARGS_MAPPING,
-    _MISCLASSIFIED_QUERY_ARGS_MAPPING,
-    _QUERY_CONSTRUCT_HELPER,
-    _INSERT_QUERY_TEMPLATE,
+    ML_LOG_QUERY_ARGS_MAPPING,
+    MISCLASSIFIED_QUERY_ARGS_MAPPING,
+    QUERY_CONSTRUCT_HELPER,
+    INSERT_QUERY_TEMPLATE,
 )
 
 logger = logging.getLogger()
@@ -48,7 +48,7 @@ class MySQLClient:
         self.response = json.load(StringIO(response))
 
     def construct_query(self):
-        query_helper = _QUERY_CONSTRUCT_HELPER[self.query_type]
+        query_helper = QUERY_CONSTRUCT_HELPER[self.query_type]
 
         database_name, table_name, column_names = (
             query_helper.get("database_name"),
@@ -62,7 +62,7 @@ class MySQLClient:
             "'default'", "default"
         )
 
-        self.final_query_to_execute = _INSERT_QUERY_TEMPLATE.format(
+        self.final_query_to_execute = INSERT_QUERY_TEMPLATE.format(
             database_name=database_name,
             table_name=table_name,
             column_names=column_names,
@@ -84,9 +84,9 @@ class MySQLClient:
 
     def get_column_values(self):
         query_args_mapper = (
-            _ML_LOG_QUERY_ARGS_MAPPING
+            ML_LOG_QUERY_ARGS_MAPPING
             if self.query_type == "ml_model_logs"
-            else _MISCLASSIFIED_QUERY_ARGS_MAPPING
+            else MISCLASSIFIED_QUERY_ARGS_MAPPING
         )
 
         for list_value in query_args_mapper.values():

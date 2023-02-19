@@ -3,18 +3,23 @@ import pandas as pd
 import joblib
 import json
 import os
+import urllib.request
 
+# from ml_model_consume.helpers.object_storage_client import LinObjStoClient
+from ml_model_consume.helpers.constants import LINODE_OBJECT_STORAGE_MODEL_URL
 from ml_model_consume.helpers.utils import get_model_attributes
 
 
+# using Linode Object Storage
+# storage_client = LinObjStoClient()
+# storage_client.load_model("ml_model_consume", "96_90_random_forest_nor_10k.sav")
+
 _LATEST_MODEL_VERSION = os.environ.get("LATEST_MODEL_VERSION")
 
-MODEL_V1_PATH = "ml_model_consume/models/96_90_random_forest_nor_10k.sav"
-
+MODEL_V1_PATH = urllib.request.urlopen(LINODE_OBJECT_STORAGE_MODEL_URL)
 
 # load the model and get the model running for prediction
 MODEL_V1 = joblib.load(MODEL_V1_PATH)
-
 
 # label reference
 CLASSIFIER_CLASSES_MAPPING_DICT = {0: "safe to consume", 1: "unsafe to consume"}

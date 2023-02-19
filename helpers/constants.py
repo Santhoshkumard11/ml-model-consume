@@ -1,4 +1,4 @@
-model_attributes = {
+MODEL_ATTRIBUTES = {
     "v1": {
         "model_name": "v1",
         "features_list": [
@@ -58,7 +58,7 @@ model_attributes = {
 }
 
 
-_ML_LOG_QUERY_ARGS_MAPPING = {
+ML_LOG_QUERY_ARGS_MAPPING = {
     "model_version": ["req_body", "model_version"],
     "features_dict": ["req_body", "features_dict"],
     "predicted_class": ["response", "predicted_class"],
@@ -71,7 +71,7 @@ _ML_LOG_QUERY_ARGS_MAPPING = {
     "log_source": ["response", "log_source"],
 }
 
-_MISCLASSIFIED_QUERY_ARGS_MAPPING = {
+MISCLASSIFIED_QUERY_ARGS_MAPPING = {
     "model_version": ["req_body", "model_version"],
     "features_dict": ["req_body", "features_dict"],
     "response_time": ["response", "response_time"],
@@ -82,10 +82,15 @@ _MISCLASSIFIED_QUERY_ARGS_MAPPING = {
     "status_code": ["response", "status_code"],
 }
 
-_QUERY_CONSTRUCT_HELPER = {
+QUERY_CONSTRUCT_HELPER = {
     "ml_model_logs": {"table_name": "fresh_water_classifier", "database_name": "ml_model_logs", "column_names": "model_version,features_dict,predicted_class,response_time,_mode,get_probability,get_feature_importance,get_model_features,status_code,log_source"},
     "misclassified": {"table_name": "misclassified", "database_name": "retrain_model", "column_names": "original_class,predicted_class,features_dict,model_version,response_time"},
 }
 
 
-_INSERT_QUERY_TEMPLATE = """INSERT INTO {database_name}.{table_name} ({column_names})  values ({column_values})"""
+INSERT_QUERY_TEMPLATE = """INSERT INTO {database_name}.{table_name} ({column_names})  values ({column_values})"""
+
+LINODE_OBJECT_STORAGE_API_URL = "https://api.linode.com/v4/object-storage/buckets/ap-south-1/ml-model-bucket"
+LINODE_OBJECT_STORAGE_URL = "https://ml-model-bucket.ap-south-1.linodeobjects.com"
+LINODE_OBJECT_STORAGE_MODEL_URL = "https://ml-model-bucket.ap-south-1.linodeobjects.com/96_90_random_forest_nor_10k.sav"
+ 
