@@ -1,0 +1,86 @@
+{
+	"info": {
+		"_postman_id": "4b03df17-749d-40ec-a1ee-b2d8753fcca8",
+		"name": "Linode Hackahon 2023",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "10339121"
+	},
+	"item": [
+		{
+			"name": "predict",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"features_dict\": {\r\n        \"pH\": \"0.916054662638588\",\r\n        \"Iron\": \"0.61964963700558\",\r\n        \"Nitrate\": \"0.0\",\r\n        \"Chloride\": \"0.0\",\r\n        \"Lead\": \"0\",\r\n        \"Zinc\": \"0.9780321533559888\",\r\n        \"Turbidity\": \"0.2486518821452759\",\r\n        \"Fluoride\": \"0.6913182398790103\",\r\n        \"Copper\": \"0.96396750718677\",\r\n        \"Odor\": \"0.7721724045887509\",\r\n        \"Sulfate\": \"0.81345037627716\",\r\n        \"Chlorine\": \"0.966623674745241\",\r\n        \"Manganese\": \"0.011527500694864\",\r\n        \"Total Dissolved Solids\": \"0.36944624557778\"\r\n    },\r\n    \"model_version\": \"v1\",\r\n    \"mode\": \"predict\",\r\n    \"get_probability\": true,\r\n    \"get_feature_importance\": true,\r\n    \"get_model_features\": true,\r\n    \"skip_db_update\": false\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://194.195.115.181/predict",
+					"host": [
+						"http://194.195.115.181"
+					],
+					"path": [
+						"predict"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "model_describe",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"model_version\": \"v1\",\r\n    \"mode\": \"model_describe\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://194.195.115.181/predict",
+					"host": [
+						"http://194.195.115.181"
+					],
+					"path": [
+						"predict"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "model-downlaod",
+			"request": {
+				"method": "GET",
+				"url": {
+					"raw": "https://api.linode.com/v4/object-storage/buckets/ap-south-1/ml-model-bucket/object-list",
+					"protocol": "https",
+					"host": [
+						"api",
+						"linode",
+						"com"
+					],
+					"path": [
+						"v4",
+						"object-storage",
+						"buckets",
+						"ap-south-1",
+						"ml-model-bucket",
+						"object-list"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
