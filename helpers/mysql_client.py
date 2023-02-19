@@ -14,6 +14,7 @@ logger = logging.getLogger()
 
 host, user, password = "", "", ""
 
+# check if we are in production or debug mode
 if os.path.isfile("/etc/config.json"):
     with open("/etc/config.json") as config_file:
         config = json.load(config_file)
@@ -27,7 +28,7 @@ else:
     password = os.environ.get("MYSQL_PASSWORD")
 
 
-logger.info(f'host - {os.environ.get("MYSQL_HOST")}')
+logger.info(f'MySQL host - {host}')
 
 MYSQL_CONN = mysql.connector.connect(
     host=host,
@@ -40,14 +41,25 @@ MYSQL_CONN = mysql.connector.connect(
 
 
 class MySQLClient:
+    "Handle all MySQL transactions"
+
     def __init__(self) -> None:
         self.column_values, self.query_type, self.final_query_to_execute = [], "", ""
 
     def load_request_response_dicts(self, req_body: dict, response: str):
+        """Initialize the request and response objects
+
+        Args:
+            req_body (dict): request object from user
+            response (str): response to be sent to user
+        """
+
         self.req_body = req_body
         self.response = json.load(StringIO(response))
 
     def construct_query(self):
+        "Construct the insert query to be executed by adding column names and values"
+
         query_helper = QUERY_CONSTRUCT_HELPER[self.query_type]
 
         database_name, table_name, column_names = (
@@ -72,6 +84,8 @@ class MySQLClient:
         logger.info(f"query - {self.final_query_to_execute}")
 
     def execute_query(self):
+        "The actual query executing happens here"
+
         try:
             with MYSQL_CONN.cursor() as cur:
                 cur.execute(self.final_query_to_execute)
@@ -83,6 +97,8 @@ class MySQLClient:
             raise
 
     def get_column_values(self):
+        "Add column values from the corresponding objects"
+
         query_args_mapper = (
             ML_LOG_QUERY_ARGS_MAPPING
             if self.query_type == "ml_model_logs"

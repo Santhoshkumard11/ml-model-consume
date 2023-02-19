@@ -1,12 +1,12 @@
 # Linode + DEV Hackathon 2023 - ML Model Consume - Sandy Inspires
 
-This repo contains code that runs on Shared Linode Instance where multiple classifier model files are placed in `Linode Object Storage`, which is consumed by a `Flask` web application written in `Python` to do prediction, log the prediction status in `Linode's MySQL server`, and return results
+This repo contains code that runs on `Linode's Shared CPU` where a binary classifier machine learning model file is placed in `Linode Object Storage`, which is consumed by a `Flask` web application written in `Python` to do prediction, log the prediction status in `Linode's MySQL server`, and return results.
 
 Download the Postman collection which has sample API endpoints and JSON request body
 
 Request URL - http://194.195.115.181
 
-`NOTE: this is a http endpoint and doesn't have a domain name yet`
+`NOTE: this is a http endpoint and doesn't have a domain name yet - runs on port 80`
 
 ## YouTube Demo Video 📺📺
 ### [Click here to watch the demo](https://www.youtube.com/watch?v=9g36_NK3kNY&ab_channel=LateNightCodewithSanthosh)

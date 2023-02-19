@@ -3,6 +3,7 @@ from ml_model_consume.handlers import handle_predict
 import logging
 from logging.config import dictConfig
 
+# configuring a custom logger
 dictConfig(
     {
         "version": 1,
@@ -30,14 +31,14 @@ app = Flask(__name__)
 
 @app.route("/", methods=["GET"])
 def index():
-    logger.info("index called")
-    return "Call /predict with required params to make a successful prediction"
+    logger.info("Index endpoint hit!")
+    return "Index endpoint hit!!<br><br>Make a POST request to /predict with required arguments in JSON body to make a successful prediction <br><br><br>Sandy Inspires"
 
 
 @app.route("/test", methods=["GET"])
 def test():
     logger.info("test endpoint hit!")
-    return "Model Prediction Endpoint is workingIt's working"
+    return "Test endpoint hit!!<br><br>Model Prediction Endpoint is working<br><br> Make a POST request to /predict with JSON body <br><br><br> Sandy Inspires"
 
 
 @app.route("/predict", methods=["GET", "POST"])

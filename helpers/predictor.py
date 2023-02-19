@@ -28,6 +28,8 @@ logger = logging.getLogger()
 
 
 class Predictor:
+    "The class that makes the actual prediction"
+
     def __init__(self, features_dict: dict, req_body={}) -> None:
         self.features_dict = features_dict
         self.req_body = req_body
@@ -47,18 +49,27 @@ class Predictor:
         )
 
         self.model_attributes = get_model_attributes(self.model_version)
-
         self.predict_df = None
-
         self.model = MODEL_V1
 
     def preprocess_feature_list(self):
+        "Get all the features and convert them to float values then finally to pandas dataframe"
+
         for key, value in self.features_dict.items():
             self.features_dict.update({key: float(value)})
 
         self.predict_df = pd.DataFrame(self.features_dict, index=[0])
 
     def construct_final_output(self, predicted_class: int):
+        """Add multiple parameters based on users request body to the response
+
+        Args:
+            predicted_class (int): class of the prediction
+
+        Returns:
+            str: response to be sent to user
+        """
+
         final_output = {}
 
         raw_prediction = CLASSIFIER_CLASSES_MAPPING_DICT.get(
@@ -89,6 +100,12 @@ class Predictor:
         return json.dumps(final_output)
 
     def model_describe(self):
+        """Get the model's feature names and importance
+
+        Returns:
+            str: response to be sent back
+        """
+
         final_output = {}
 
         for key, value in zip(
