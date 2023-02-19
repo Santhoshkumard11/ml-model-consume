@@ -1,9 +1,10 @@
+import logging
 from time import time
 import json
 from ml_model_consume.helpers.predictor import Predictor
 from ml_model_consume.helpers.mysql_client import MySQLClient
 
-global logger
+logger = logging.getLogger()
 
 
 def add_time_to_response(response, end_time):
@@ -23,10 +24,7 @@ def mysql_handler(req_body: dict, response: str, query_type: str):
         mysql_client.add_misclassified(req_body, response)
 
 
-def handle_predict(request, _logger):
-    global logger
-    logger = _logger
-
+def handle_predict(request):
     start_time = time()
     method_type = request.method
 

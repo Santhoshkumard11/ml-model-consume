@@ -18,9 +18,6 @@ if os.path.isfile("/etc/config.json"):
     with open("/etc/config.json") as config_file:
         config = json.load(config_file)
         logger.info("Production Deployment!!")
-        for key, value in config.items():
-            config[key] = config.get(key)
-            os.environ.update({key: value})
         host = config.get("MYSQL_HOST")
         user = config.get("MYSQL_USERNAME")
         password = config.get("MYSQL_PASSWORD")
@@ -72,7 +69,7 @@ class MySQLClient:
             column_values=final_column_values,
         )
 
-        print(f"query - {self.final_query_to_execute}")
+        logger.info(f"query - {self.final_query_to_execute}")
 
     def execute_query(self):
         try:
